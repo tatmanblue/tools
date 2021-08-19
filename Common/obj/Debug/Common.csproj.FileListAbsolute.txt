@@ -1,0 +1,10 @@
+C:\src\BigWoo\Common\bin\Debug\BigWoo.Common.dll
+C:\src\BigWoo\Common\bin\Debug\BigWoo.Common.pdb
+C:\src\BigWoo\Common\obj\Debug\ResolveAssemblyReference.cache
+C:\src\BigWoo\Common\obj\Debug\BigWoo.Common.dll
+C:\src\BigWoo\Common\obj\Debug\BigWoo.Common.pdb
+J:\public\personal\dev\Tools\BigWoo\Common\bin\Debug\BigWoo.Common.dll
+J:\public\personal\dev\Tools\BigWoo\Common\bin\Debug\BigWoo.Common.pdb
+J:\public\personal\dev\Tools\BigWoo\Common\obj\Debug\ResolveAssemblyReference.cache
+J:\public\personal\dev\Tools\BigWoo\Common\obj\Debug\BigWoo.Common.dll
+J:\public\personal\dev\Tools\BigWoo\Common\obj\Debug\BigWoo.Common.pdb

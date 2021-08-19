@@ -1,0 +1,9 @@
+SCC = This is a source code control file
+
+[Common.csproj]
+SCC_Aux_Path = "P4SCC#bigwoo:1666##matt##MediumWoo"
+SCC_Project_Name = Perforce Project
+
+[Common.sln]
+SCC_Aux_Path = "P4SCC#bigwoo:1666##matt##MediumWoo"
+SCC_Project_Name = Perforce Project

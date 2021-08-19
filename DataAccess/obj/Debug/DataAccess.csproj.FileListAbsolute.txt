@@ -1,0 +1,16 @@
+C:\src\BigWoo\DataAccess\bin\Debug\BigWoo.Common.XML
+C:\src\BigWoo\DataAccess\bin\Debug\BigWoo.DataAccess.dll
+C:\src\BigWoo\DataAccess\bin\Debug\BigWoo.DataAccess.pdb
+C:\src\BigWoo\DataAccess\bin\Debug\BigWoo.Common.dll
+C:\src\BigWoo\DataAccess\bin\Debug\BigWoo.Common.pdb
+C:\src\BigWoo\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+C:\src\BigWoo\DataAccess\obj\Debug\BigWoo.DataAccess.dll
+C:\src\BigWoo\DataAccess\obj\Debug\BigWoo.DataAccess.pdb
+J:\public\personal\dev\Tools\BigWoo\DataAccess\bin\Debug\BigWoo.Common.XML
+J:\public\personal\dev\Tools\BigWoo\DataAccess\bin\Debug\BigWoo.DataAccess.dll
+J:\public\personal\dev\Tools\BigWoo\DataAccess\bin\Debug\BigWoo.DataAccess.pdb
+J:\public\personal\dev\Tools\BigWoo\DataAccess\bin\Debug\BigWoo.Common.dll
+J:\public\personal\dev\Tools\BigWoo\DataAccess\bin\Debug\BigWoo.Common.pdb
+J:\public\personal\dev\Tools\BigWoo\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+J:\public\personal\dev\Tools\BigWoo\DataAccess\obj\Debug\BigWoo.DataAccess.dll
+J:\public\personal\dev\Tools\BigWoo\DataAccess\obj\Debug\BigWoo.DataAccess.pdb

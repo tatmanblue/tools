@@ -1,0 +1,458 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BigWoo.Sql</name>
+    </assembly>
+    <members>
+        <member name="T:BigWoo.Sql.BaseRecord">
+            <summary>
+            All record classess should be derived from here.  This class provides a standard identity 
+            for all data classes.  Derived classes must override the validate method if the classes
+            permit saving the record.  Derived classes must override the insert and/or update methods
+            as well (its possible some records do not permit new records)
+            
+            The derived class is responsible for maintaining if the record has changed.
+            
+            The derived class is responsible for declaring the record as new
+            </summary>
+        </member>
+        <member name="F:BigWoo.Sql.BaseRecord._isNewRecord">
+            <summary>
+            Indicates this is a new record and Insert should be used for saving
+            </summary>
+        </member>
+        <member name="F:BigWoo.Sql.BaseRecord._isDirtyRecord">
+            <summary>
+            Indicates the record has changed and should be saved
+            </summary>
+        </member>
+        <member name="F:BigWoo.Sql.BaseRecord._recordID">
+            <summary>
+            pretty much every record in the system has a int ID unique field 
+            assigned to it...this member contains its value
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.MarkIsDirty">
+            <summary>
+            Flags the record as dirty.  Will allow calls to the save method to
+            update the database with the changes (either insert or update)
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.MarkIsNewRecord">
+            <summary>
+            Sets the record as new and unsaved.  Meaning call to Save will 
+            execute the insert method.   A new record is a dirty record since
+            it does not exist in the database as a new record.
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.SetProperty``1(``0,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="C"></typeparam>
+            <param name="oldValue"></param>
+            <param name="newValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.#ctor">
+            <summary>
+            Hide the default constructor as consumers should never to able to
+            directly create instances of a base record class.
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.#ctor(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="recordId"></param>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.LoadPrep(System.Data.SqlClient.SqlCommand)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.InsertPrep(System.Data.SqlClient.SqlCommand)">
+            <summary>
+            Override this method if the consumer is allowed to create new records
+            </summary>
+            <param name="cmd">SqlCommand</param>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.UpdatePrep(System.Data.SqlClient.SqlCommand)">
+            <summary>
+            Override this method if the consumer is allowed to update existing records.
+            If you do not permit updating records, then make sure MarkIsDirty() is
+            never called in your class implementation (??? readonly properties)
+            </summary>
+            <param name="cmd">SqlCommand</param>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.DeletePrep(System.Data.SqlClient.SqlCommand)">
+            <summary>
+            Override this method if the consumer is allowed to delete existing records.
+            If you do not permit updating records, then make sure MarkIsDirty() is
+            never called in your class implementation (??? readonly properties)
+            </summary>
+            <param name="cmd">SqlCommand</param>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.Validate">
+            <summary>
+            This method is used to validate that the data is valid and can be
+            saved.   Rules are defined and the data checked against the rules
+            in derived classes.  Derived classes should throw a DataNotValidException 
+            if the data is not valid
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.Load(System.Data.SqlClient.SqlDataReader)">
+            <summary>
+            This method is used to load a record from the database into the class members
+            </summary>
+            <param name="reader">SqlDataReader</param>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.PostSave(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="recordId">int</param>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.RecordID(BigWoo.Sql.BaseRecord,System.Int32)">
+            <summary>
+            Helper method, returns the record id unless record is null
+            in which case it returns the default
+            </summary>
+            <param name="record">BaseRecord</param>
+            <param name="defaultVal">int</param>
+            <returns>int</returns>
+        </member>
+        <member name="M:BigWoo.Sql.BaseRecord.RecordID(BigWoo.Sql.BaseRecord)">
+            <summary>
+            Helper method, returns the record id unless record is null
+            in which case it returns -1
+            </summary>
+            <param name="record">BaseRecord</param>
+            <returns>int</returns>
+        </member>
+        <member name="P:BigWoo.Sql.BaseRecord.ID">
+            <summary>
+            Record ID, key field 
+            </summary>
+        </member>
+        <member name="P:BigWoo.Sql.BaseRecord.IsDirty">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BigWoo.Sql.BaseRecord.IsNew">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:BigWoo.Sql.BaseList`1">
+            <summary>
+            Base class for all list classes
+            </summary>
+        </member>
+        <member name="T:BigWoo.Sql.IPageEnabledList">
+            <summary>
+            Interface defines a list of BaseRecords that can be 
+            loaded from the database.  The interface is defined by
+            BaseList and is used by ListAccessor
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.IPageEnabledList.LoadPrep(System.Data.SqlClient.SqlCommand,System.Int32)">
+            <summary>
+            List classes should provide this method to initialize the command
+            with the SQL required to generate the list
+            </summary>
+            <param name="cmd">SqlCommand</param>
+            <param name="sortIndex">int</param>
+        </member>
+        <member name="M:BigWoo.Sql.IPageEnabledList.LoadFromReader(System.Data.SqlClient.SqlDataReader)">
+            <summary>
+            Once the reader is initialized, the list must create records from
+            the rows in the list using this method
+            </summary>
+            <param name="reader">SqlDataReader</param>
+        </member>
+        <member name="F:BigWoo.Sql.BaseList`1._isReadOnly">
+            <summary>
+            indicates if the list is readonly and when true prevents save
+            from functioning
+            </summary>
+        </member>
+        <member name="F:BigWoo.Sql.BaseList`1._items">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.BaseList`1.MarkIsReadOnly">
+            <summary>
+            makes the list read only, by making the list read only the save
+            method does nothing
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.BaseList`1.LoadItemFromReader(System.Data.SqlClient.SqlDataReader)">
+            <summary>
+            Called from LoadFromStoredProc, used to create a record class from a single record 
+            
+            Please note: do not advance the reader to the next record.  That is handled for you.
+            </summary>
+            <param name="reader">SqlDataReader</param>
+        </member>
+        <member name="M:BigWoo.Sql.BaseList`1.#ctor">
+            <summary>
+            default ctor creates the list of the type specified
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.BaseList`1.LoadPrep(System.Data.SqlClient.SqlCommand,System.Int32)">
+            <summary>
+            List classes should override this method to properly initialize the load functions
+            </summary>
+            <param name="cmd">SqlCommand</param>
+            <param name="sortIndex">int</param>
+        </member>
+        <member name="M:BigWoo.Sql.BaseList`1.LoadFromReader(System.Data.SqlClient.SqlDataReader)">
+            <summary>
+            Allocates a record of RecordType, calls Load(SqlDataReader) for it and adds it to our list
+            </summary>
+            <param name="reader">SqlDataReader</param>
+        </member>
+        <member name="P:BigWoo.Sql.BaseList`1.Items">
+            <summary>
+            List of BaseRecord
+            </summary>
+        </member>
+        <member name="P:BigWoo.Sql.BaseList`1.IsReadOnly">
+            <summary>
+            Indicates the list is set to read only.  When the list is set to read only 
+            calling Save at the list level does nothing.
+            </summary>
+        </member>
+        <member name="T:BigWoo.Sql.ListAccessor">
+            <summary>
+            Base class for all list classes
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.ListAccessor.GetConnection">
+            <summary>
+            Helper method for creating/getting a connection to the database.  
+            
+            PLEASE NOTE:  consumer of this method, MUST CALL Close() on the connection
+            </summary>
+            <returns>SqlConnection</returns>
+        </member>
+        <member name="M:BigWoo.Sql.ListAccessor.GetStoredProcCommand(System.Data.SqlClient.SqlConnection)">
+            <summary>
+            Helper method for creating a command object used for a stored proc.  
+            </summary>
+            <param name="connection">SqlConnection</param>
+            <returns>SqlCommand</returns>
+        </member>
+        <member name="M:BigWoo.Sql.ListAccessor.ExecuteReader(System.Data.SqlClient.SqlCommand,BigWoo.Sql.IPageEnabledList)">
+            <summary>
+            
+            </summary>
+            <param name="cmd">SqlCommand</param>
+            <param name="list">IPageEnabledList</param>
+        </member>
+        <member name="M:BigWoo.Sql.ListAccessor.AdvanceToPage(System.Data.SqlClient.SqlDataReader,System.Int32)">
+            <summary>
+            Page is a metaphorical term used to describe where record list should start 
+            and end at....its all based on the value _maxResults which defines the size of
+            a page.
+            </summary>
+            <param name="reader">SqlDataReader</param>
+            <param name="pageIndex">int</param>
+        </member>
+        <member name="M:BigWoo.Sql.ListAccessor.LoadItemFromReader(System.Data.SqlClient.SqlDataReader)">
+            <summary>
+            Called from LoadFromStoredProc, used to create a record class from a single record 
+            
+            Please note: do not advance the reader to the next record.  That is handled for you.
+            </summary>
+            <param name="reader">SqlDataReader</param>
+        </member>
+        <member name="M:BigWoo.Sql.ListAccessor.#ctor">
+            <summary>
+            Default Ctor....creates instance
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.ListAccessor.LoadList(BigWoo.Sql.IPageEnabledList)">
+            <summary>
+            Loads a list of BaseRecord using a list class instance for initialize and list management
+            </summary>
+            <param name="list">IPageEnabledList, class methods used to populate a list</param>
+        </member>
+        <member name="M:BigWoo.Sql.ListAccessor.Save">
+            <summary>
+            Helper method for saving all of the items in the list.  Simply iterates through
+            the list, calling save on each record in the list.   If the list maintains a mix
+            of new and updated records, it is required that the record type implements both
+            Insert and Update methods
+            </summary>
+        </member>
+        <member name="P:BigWoo.Sql.ListAccessor.MaxResults">
+            <summary>
+            client can decide how many rows to return in one request, -1 means all
+            </summary>
+        </member>
+        <member name="P:BigWoo.Sql.ListAccessor.PageIndex">
+            <summary>
+            indicates which page of the rows to return page is a set of rows starting and
+            ending determined by the totalrows / maxresults
+            </summary>
+        </member>
+        <member name="P:BigWoo.Sql.ListAccessor.SortIndex">
+            <summary>
+            Indicates how the data is sorted for determines page
+            </summary>
+        </member>
+        <member name="T:BigWoo.Sql.RecordAccesor">
+            <summary>
+            Worldfinance data structures do not know how to get the raw data to/from
+            the data store.  The RecordAccessor class is responsible for functionality
+            of getting the data into and from the datastore (aka db).
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.GetConnection">
+            <summary>
+            Helper method for creating/getting a connection to the database.  
+            
+            PLEASE NOTE:  consumer of this method, MUST CALL Close() on the connection
+            </summary>
+            <returns>SqlConnection</returns>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.GetStoredProcCommand(System.Data.SqlClient.SqlConnection)">
+            <summary>
+            Helper method for creating a command object used for a stored proc.  
+            </summary>
+            <param name="connection">SqlConnection</param>
+            <returns>SqlCommand</returns>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.Insert">
+            <summary>
+            helper method for executing an insert stored proc.  This method supports inserts 
+            into a table that has the identity attribute as a key field.  It is required
+            of the stored procedure to properly set the new record identity value to the output parameter for the
+            return to work correctly.
+            </summary>
+            <returns>int, value of the output parameter, expectation is the keyfield.  If no output parameter
+            is defined, returns -1</returns>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.Update">
+            <summary>
+            Helper method for executing update stored procedures.
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.Delete">
+            <summary>
+            Helper method for executing delete stored procedures.
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.ExecuteReader(System.Data.SqlClient.SqlCommand)">
+            <summary>
+            Using the SqlCommand object passed in creates a SqlDataRead and calls load on the results.
+            Exception will be thrown if no record is found. The virtual method Load(SqlDataReader) will
+            be called if record is retrieved.
+            
+            Please note:  this method assumes there will only be one row retrieved
+            </summary>
+            <param name="cmd">SqlCommand</param>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.ExecuteReader(System.Data.SqlClient.SqlCommand,System.Boolean)">
+            <summary>
+            Using the SqlCommand object passed in creates a SqlDataRead and calls load on the results.
+            Exception will be thrown if no record is found and rowsExpected is true. The virtual method Load(SqlDataReader) will
+            be called if record is retrieved.  
+            
+            Please note:  this method assumes there will only be one row retrieved
+            </summary>
+            <param name="cmd">SqlCommand</param>
+            <param name="rowsExpected">bool, true if you want to force check for records returned</param>
+            <exception cref="T:BigWoo.Sql.RowsExpectedException">RowsExpectedException when no rows are returned on rowsExpected is true</exception>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.#ctor(BigWoo.Sql.BaseRecord)">
+            <summary>
+            
+            </summary>
+            <param name="record">BaseRecord</param>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.Load">
+            <summary>
+            helper method for retrieving message records from the database using a stored procedure.   
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.Save">
+            <summary>
+            Causes the record to be validated and then inserted or updated in the database
+            if the record has changed.  A DataNotValidException exception will be
+            thrown if the data does not validate.   Standard .NET exceptions may be
+            thrown as well.
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.RecordID(BigWoo.Sql.BaseRecord,System.Int32)">
+            <summary>
+            Helper method, returns the record id unless record is null
+            in which case it returns the default
+            </summary>
+            <param name="record">BaseRecord</param>
+            <param name="defaultVal">int</param>
+            <returns>int</returns>
+        </member>
+        <member name="M:BigWoo.Sql.RecordAccesor.RecordID(BigWoo.Sql.BaseRecord)">
+            <summary>
+            Helper method, returns the record id unless record is null
+            in which case it returns -1
+            </summary>
+            <param name="record">BaseRecord</param>
+            <returns>int</returns>
+        </member>
+        <member name="P:BigWoo.Sql.RecordAccesor.Record">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:BigWoo.Sql.OperationalException">
+            <summary>
+            indicates that the operation was not functional as is
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.OperationalException.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="msg">string</param>
+        </member>
+        <member name="T:BigWoo.Sql.RowsExpectedException">
+            <summary>
+            Used by load queries where at least 1 row is expected. default for list is no
+            rows expected so then it doesnt throw exception on empty list.  for
+            record classes is record excepted and exception will be thrown.
+            </summary>
+        </member>
+        <member name="M:BigWoo.Sql.RowsExpectedException.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="T:BigWoo.Sql.DataAccessConfiguration">
+            <summary>
+            this class contains the interchangable database connection string data
+            </summary>
+        </member>
+        <member name="P:BigWoo.Sql.DataAccessConfiguration.Default">
+            <summary>
+            2
+            </summary>
+        </member>
+        <member name="T:BigWoo.Sql.DataAccessToken">
+            <summary>
+            this class contains the a single database connection token
+            </summary>
+        </member>
+        <member name="P:BigWoo.Sql.DataAccessToken.Connection">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

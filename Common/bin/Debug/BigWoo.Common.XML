@@ -1,0 +1,1148 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BigWoo.Common</name>
+    </assembly>
+    <members>
+        <member name="T:BigWoo.Common.DiagnosticsConfigSection">
+            <summary>
+            This configuration file section initializes and controls the starfish diagnostic system.
+            The starfish diagnostic system is intended to give the developer a toolset for documenting
+            runtime monitoring.
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DiagnosticsConfigSection.LogWriters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DiagnosticsConfigSection.AllowAsserts">
+            <summary>
+            when true, diagnostics called with the Assert functions will assert
+            Default setting is false
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DiagnosticsConfigSection.AllowLogging">
+            <summary>
+            when true (default), permits logging (logging is implemented by implementing the IDiagnosticsLogWriter
+            interface and declaring the class in logWriters section)
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DiagnosticsConfigSection.TraceAllMessages">
+            <summary>
+            When true (default) all messages are sent via the trace system (System.Diagnostics.Trace)
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.LogWriterElementCollection">
+            <summary>
+            used to read in the list of assemblies which will be loaded for data contracts used to
+            process messges found in the message queue
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.LogWriterElementCollection.CreateNewElement">
+            <summary>
+            for creating new elements
+            </summary>
+            <returns>AssemblyElement</returns>
+        </member>
+        <member name="M:BigWoo.Common.LogWriterElementCollection.GetElementKey(System.Configuration.ConfigurationElement)">
+            <summary>
+            searchs the collection for a given AssemblyElement based on its key
+            </summary>
+            <param name="element">AssemblyElement</param>
+            <returns>AssemblyElement</returns>
+        </member>
+        <member name="P:BigWoo.Common.LogWriterElementCollection.Item(System.Int32)">
+            <summary>
+            Indexor into the array
+            </summary>
+            <param name="idx">int</param>
+            <returns>LogWriterElement</returns>
+        </member>
+        <member name="T:BigWoo.Common.LogWriterElement">
+            <summary>
+            defines a IDiagnosticsLogWriter implementation that will be loaded by the starfish diagnostics system
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.LogWriterElement.Assembly">
+            <summary>
+            the assembly file name, required
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.LogWriterElement.LogWriterClassName">
+            <summary>
+            class name of the IDiagnosticsLogWriter implementation to load, full class name including namespace
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.LogWriterElement.DelayLoad">
+            <summary>
+            indicates the writer should not be loaded in the SystemDiagnostic constructor.  
+            Elements that are delay loaded will be initialized by calling SystemDiagnostic.Instance.DelayLoadInitialization().
+            It is up to the consumer of SystemDiagnostic engine to make sure they 
+            actually call the delay load initialization routines
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.DateTimeValidation">
+            <summary>
+            This class provides validation of a DateTime type.  
+            
+            Please note: Even though this class can be considered
+            business logic it cannot be in the business logic layer as the data 
+            access layer requires it.
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.DateTimeValidation.DefaultDateComparison">
+            <summary>
+            specifies that the DateTime will be compared down to the millisecond.  Default when
+            no comparisionMethod is specified
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.DateTimeValidation.ResolutionSecondsDateComparison">
+            <summary>
+            the DateTime will be compared down to the second
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.DateTimeValidation.ResolutionMinutesDateComparison">
+            <summary>
+            the DateTime will be compared down to the minute
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.DateTimeValidation.DateOnlyComparison">
+            <summary>
+            Date only comparision
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.DateTimeValidation.TimeOnlyComparison">
+            <summary>
+            time only comparision
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.DateTimeValidation.GetMaxDefaultValidDate">
+            <summary>
+            property helper method for returning the max default legal value
+            </summary>
+            <returns>DateTime</returns>
+        </member>
+        <member name="M:BigWoo.Common.DateTimeValidation.GetMinDefaultValidDate">
+            <summary>
+            propertye helper method for returning the min default legal value
+            </summary>
+            <returns>DateTime</returns>
+        </member>
+        <member name="M:BigWoo.Common.DateTimeValidation.Initialize">
+            <summary>
+            Ensures the date values have been properly initialized
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.DateTimeValidation.#cctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.DateTimeValidation.IsDateValidDefault(System.DateTime)">
+            <summary>
+            Determines if a DateTime is valid using the default values/rules 
+            </summary>
+            <param name="date">DateTime</param>
+            <returns>bool, true if the date is within the ranges</returns>
+        </member>
+        <member name="M:BigWoo.Common.DateTimeValidation.IsDateDaysInFuture(System.DateTime,System.Int32)">
+            <summary>
+            Checks to see if a date is a number of days into the future without considering the
+            time portion of the DateTime field.   
+            
+            In other words if date = 8/8/08 and Now = 8/7/08 and daysExpected = 1 then date the 
+            test is true
+            
+            If date = 8/8/08 and Now = 8/7/08 and daysExpected = 2 then date the 
+            test is false
+            </summary>
+            <param name="date">DateTime, date to check</param>
+            <param name="daysExpected">int, min number of days date should be in the future</param>
+            <returns>true if the input date is daysExpected into the future</returns>
+        </member>
+        <member name="M:BigWoo.Common.DateTimeValidation.AreDatesEqual(System.DateTime,System.DateTime)">
+            <summary>
+            Date comparision helper method.  Performs comparision down to the millisecond level.
+            
+            Expected use is to compare dates retrieved from the database.
+            There is a problem in that two dates read from the database that might visually appear to be
+            same do not evaulate to equal when used like date1 == date2.   This has to do with
+            some anomly withing the database or .NET framework not the starfish code.  
+            </summary>
+            <param name="date1">DateTime</param>
+            <param name="date2">DateTime</param>
+            <returns>bool, true if the dates and the times down the milliseconds are the same</returns>
+        </member>
+        <member name="M:BigWoo.Common.DateTimeValidation.AreDatesEqual(System.DateTime,System.DateTime,System.String)">
+            <summary>
+            Date comparision helper method.  Performs comparision down to the millisecond level.
+            
+            Expected use is to compare dates retrieved from the database.
+            There is a problem in that two dates read from the database that might visually appear to be
+            same do not evaulate to equal when used like date1 == date2.   This has to do with
+            some anomly withing the database or .NET framework not the starfish code.  
+            </summary>
+            <param name="date1">DateTime</param>
+            <param name="date2">DateTime</param>
+            <param name="comparisonMethod">string, C# formatter format used to build string for how the dates are compared</param>
+            <returns>bool, true if the dates and the times down the milliseconds are the same</returns>
+        </member>
+        <member name="M:BigWoo.Common.DateTimeValidation.IsDateBeforeDate(System.DateTime,System.DateTime)">
+            <summary>
+            Determines if the first date is less than the second date.  Performs comparision down to the millisecond level.
+            
+            Expected use is to compare dates retrieved from the database.
+            There is a problem in that two dates read from the database that might visually appear to be
+            same do not evaulate to equal when used like date1 == date2.   This has to do with
+            some anomly withing the database or .NET framework not the starfish code.  
+            </summary>
+            <param name="date1">DateTime</param>
+            <param name="date2">DateTime</param>
+            <returns>bool, true if the first date dates less than the second date</returns>
+        </member>
+        <member name="M:BigWoo.Common.DateTimeValidation.IsDateBeforeDate(System.DateTime,System.DateTime,System.String)">
+            <summary>
+            Determines if the first date is less than the second date. details of comparison based on comparison method format string passed in.
+            
+            Expected use is to compare dates retrieved from the database.
+            There is a problem in that two dates read from the database that might visually appear to be
+            same do not evaulate to equal when used like date1 == date2.   This has to do with
+            some anomly withing the database or .NET framework not the starfish code.  
+            </summary>
+            <param name="date1">DateTime</param>
+            <param name="date2">DateTime</param>
+            <param name="comparisonMethod">string, C# formatter format used to build string for how the dates are compared</param>
+            <returns>bool, true if the first date dates less than the second date</returns>
+        </member>
+        <member name="P:BigWoo.Common.DateTimeValidation.MinDefaultValidDate">
+            <summary>
+            Read only property
+            returns the legal minimin default value for a DateTime
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DateTimeValidation.MaxDefaultValidDate">
+            <summary>
+            Read only property
+            returns the legal maximum default value for a DateTime
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DateTimeValidation.StartOfToday">
+            <summary>
+            returns Today at 12:00:00 AM
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DateTimeValidation.EndOfToday">
+            <summary>
+            return Today at 11:59:59 PM
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.IDiagnosticsLogWriter">
+            <summary>
+            Implement this interface to provide logging for your system.  It is your implementation
+            that determines how logging is implemented and what is logged.   It is the Diagnostics 
+            system (class instance) that will determine when logging is made.  
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.IDiagnosticsLogWriter.Initialize">
+            <summary>
+            Interface initialization
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.IDiagnosticsLogWriter.LogMessage(System.String)">
+            <summary>
+            Log a string message
+            </summary>
+            <param name="msg">string</param>
+        </member>
+        <member name="M:BigWoo.Common.IDiagnosticsLogWriter.LogException(System.Exception)">
+            <summary>
+            Log an exception message
+            </summary>
+            <param name="ex">System.Exception</param>
+        </member>
+        <member name="M:BigWoo.Common.IDiagnosticsLogWriter.Deinitialize">
+            <summary>
+            shutdown, cleanup
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.DiagnosticsLogWriterList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.Diagnostics">
+            <summary>
+            This class is used by all components as a means of providing debugging
+            and support to the application on errors.   It wraps asserts (allowing for
+            asserts to dynamically turned on/off), 
+            
+            The actual recording of the information is managed by implementations of 
+            IDiagnosticsLogWriter
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.FireMessageLogging(System.String)">
+            <summary>
+            So that our code is simple, we make each IDiagnosticsLogWriter subscribe to our
+            OnLogMessage event on construction.  Now all we have to do is trigger the event, and each IDiagnosticsLogWriter
+            instance will get notification to log a message
+            </summary>
+            <param name="msg">string</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.FireExceptionLogging(System.Exception)">
+            <summary>
+            So that our code is simple, we make each IDiagnosticsLogWriter subscribe to our
+            OnLogException event.  Now all we have to do is trigger the event, and each IDiagnosticsLogWriter
+            instance will get notification to log a exception
+            </summary>
+            <param name="ex">System.Exception</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.InitializeFromConfigFile">
+            <summary>
+            Reading the app config file information, spin up our log writers as well as set up system diagnostic 
+            "permissions" and available functions
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.Initialize">
+            <summary>
+            allows derived classes to initialize accordingly
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.#cctor">
+            <summary>
+            let the static ctor intialize an instance of the class
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.CreateLoggerInstance(System.String,System.String)">
+            <summary>
+            Initializes a IDiagnosticsLogWriter implementation using the input assembly and class name.
+            The IDiagnosticsLogWriter instance is "forced" to subscribe to our events so that it
+            can properly receive logging requests
+            </summary>
+            <param name="assembly">string, of the assembly containing className</param>
+            <param name="className">class name of IDiagnosticsLogWriter implementation, full name including namespace</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.Assert(System.Boolean)">
+            <summary>
+            when the boolean condition evaluates as false (same as System.Diagnotistics.Debug.Assert)
+            the assert is displayed if the config file settings indicate asserts are permitted
+            </summary>
+            <param name="condition">boolean, when false Assert fires</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.Assert(System.Boolean,System.String)">
+            <summary>
+            when the boolean condition evaluates as false (same as System.Diagnotistics.Debug.Assert)
+            the assert is displayed if the config file settings indicate asserts are permitted
+            </summary>
+            <param name="condition">boolean, when false Assert fires</param>
+            <param name="message">string</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.AssertableLoggedMessage(System.String)">
+            <summary>
+            Logs a message and if asserts are permitted triggers an assert.  It is possible that exception
+            is not logged if logging is turned off (not advisable).  
+            </summary>
+            <param name="msg">string</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.AssertableLoggedMessageIf(System.Boolean,System.String)">
+            <summary>
+            If the condition is truue, logs a message and if asserts are permitted triggers an assert.  It is possible that exception
+            is not logged if logging is turned off (not advisable).  
+            </summary>
+            <param name="condition">bool, true to trigger asserts and logs (assuming these features are turned on)</param>
+            <param name="msg">string</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.AssertableLoggedMessage(System.Exception)">
+            <summary>
+            Logs an exception  and if asserts are permitted triggers an assert.  It is possible that exception
+            is not logged if logging is turned off (not advisable).  
+            </summary>
+            <param name="ex">Exception</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.LogMessage(System.String)">
+            <summary>
+            Logs a message, if logging is enabled (strongly encouraged to keep logging enabled)
+            </summary>
+            <param name="msg">string</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.LogMessageIf(System.Boolean,System.String)">
+            <summary>
+            Logs a message, if logging is enabled (strongly encouraged to keep logging enabled) and
+            the condition is true
+            </summary>
+            <param name="condition">bool, condition to be true for the message to be written</param>
+            <param name="msg">string</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.LogMessage(System.Exception)">
+            <summary>
+            Logs an exception, if logging is enabled (strongly encouraged to keep logging enabled)
+            </summary>
+            <param name="ex">Exception</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.TraceWrite(System.String)">
+            <summary>
+            A simple wrapper for the Trace.WriteLine, allowing for it to be turned off via
+            our diagnostics config section.  This method does not fire off the loggers.  Only
+            output is to the trace "window"
+            </summary>
+            <param name="msg">string</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.TraceWriteIf(System.Boolean,System.String)">
+            <summary>
+            A simple wrapper for the Trace.WriteLine, allowing for it to be turned off via
+            our diagnostics config section.  This method does not fire off the loggers.  Only
+            output is to the trace "window"
+            </summary>
+            <param name="condition">condition to trigger the trace writing</param>
+            <param name="msg">string</param>
+        </member>
+        <member name="M:BigWoo.Common.Diagnostics.DebugWrite(System.String)">
+            <summary>
+            A simple wrapper for the Debug.Writeline, allowing for it be turned off via
+            our diagnostics config section.   This moethod does not fire off the loggers. Only
+            output is the to the trace "window"
+            </summary>
+            <param name="msg">string</param>
+        </member>
+        <member name="P:BigWoo.Common.Diagnostics.Instance">
+            <summary>
+            Instance property
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.AssemblyUtility">
+            <summary>
+            static class containing utility functions for loading assemblies and
+            loading types from an assembly and other reflection related tasks associated
+            with assemblies
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.AssemblyUtility.LoadFile(System.String)">
+            <summary>
+            Attempts to load assembly by the file name, if that fails, attempts to load it
+            from the appdomain root path
+            </summary>
+            <param name="assemblyFileName">string</param>
+            <returns>Assembly</returns>
+        </member>
+        <member name="M:BigWoo.Common.AssemblyUtility.GetType(System.Reflection.Assembly,System.String)">
+            <summary>
+            Attempts to laod a type from the assembly, if that fails, building a namespace type name and attempting to load the
+            generated name.  it assume the type name is not namespace qualified and assumes the assembly name can be used as the namespace.
+            </summary>
+            <param name="assembly">Assembly</param>
+            <param name="typeName">string</param>
+            <returns>Type</returns>
+        </member>
+        <member name="M:BigWoo.Common.AssemblyUtility.GetTypeFromFile(System.String,System.String)">
+            <summary>
+            Loads a Type from an assembly (combination of calling AssemblyUtility.LoadFile and
+            AssemblyUtility.GetType).  Be prepared to handle standard .NET exceptions
+            </summary>
+            <param name="assemblyFilePathName">string, path name + file name of assembly expected to contain the type</param>
+            <param name="typeName">string, name of the type to load</param>
+            <returns>Type</returns>
+        </member>
+        <member name="M:BigWoo.Common.AssemblyUtility.GetTypeSmartLoad(System.String,System.String,System.Type)">
+            <summary>
+            Loads a type from an assembly.  If the assemblyFileName is empty or not provide will load it
+            from the app domain
+            </summary>
+            <param name="assemblyFileName">string, can be empty if you want to load whats already in the app domain</param>
+            <param name="className">string, full namespace class name</param>
+            <param name="typeType">type instance of BaseClass or specific class type</param>
+            <exception cref="T:System.TypeLoadException">TypeLoadException if the type cannot be loaded</exception>
+            <returns>Type</returns>
+        </member>
+        <member name="M:BigWoo.Common.AssemblyUtility.InvokeDefaultCtor(System.Type)">
+            <summary>
+            Creates an instance of Type calling the default constructor.  It is the responsibility
+            of the caller of this method to make sure the constructor was called.
+            </summary>
+            <param name="objectType">Type</param>
+            <returns>object, exact instance type = input type, null if a default constructor could not be found</returns>
+        </member>
+        <member name="M:BigWoo.Common.AssemblyUtility.HasInterface(System.Type,System.Type)">
+            <summary>
+            Queries the type's interfaces to see if one matches the input
+            </summary>
+            <param name="interfaceType">Type, the type of the Interface you are looking for</param>
+            <param name="implementingType">Type, the type expected to implement the inferface</param>
+            <returns>true if implementingType implements interfaceType</returns>
+        </member>
+        <member name="M:BigWoo.Common.AssemblyUtility.HasAttribute(System.Type,System.Type)">
+            <summary>
+            For the given type, checks to see if the attribute has been applied to it
+            </summary>
+            <param name="attributeType">Type</param>
+            <param name="implementingType">Type</param>
+            <returns>true if the attribute has been applied to it</returns>
+        </member>
+        <member name="T:BigWoo.Common.StringHelper">
+            <summary>
+            StringHelper contains a "bunch" of methods that help manipulate
+            strings.  The methods kinda extend the string class, but since
+            it's sealed, we cannot inherit from it
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.StringHelper.ReverseSentence(System.String)">
+            <summary>
+            Given a sentence, this method reverses the order of the words
+            in the sentence.  For example, "I work for money" will be returned
+            as "money for work I".
+            </summary>
+            <param name="start">string</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:BigWoo.Common.StringHelper.ReverseString(System.String)">
+            <summary>
+            Reverses input.  For example "work" is returned as "krow".  
+            This method does not parse the input into words.  
+            </summary>
+            <param name="str">string</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:BigWoo.Common.StringHelper.LowerCaseFirstChar(System.String)">
+            <summary>
+            Cheezy hack function to make the first letter of string lowercase.
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Common.StringHelper.HtmlEncode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BigWoo.Common.CommandlineException">
+            <summary>
+            Thrown by the ApplicationCommandLine during processing
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.CommandlineException.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="T:BigWoo.Common.TypeConversionUtility">
+            <summary>
+            This class is a static class providing a set of methods for handling 
+            conversions of simple data types to another
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.TypeConversionUtility._isNumber">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.TypeConversionUtility.IsInteger(System.String)">
+            <summary>
+            Determines if a string contains completely numeric characters
+            </summary>
+            <param name="stringInput">string</param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Common.TypeConversionUtility.StringOrEmptyString(System.String)">
+            <summary>
+            returns the input string, unless input string is null, in which case empty string
+            is returned
+            </summary>
+            <param name="stringInput">string, possibly null string reference</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:BigWoo.Common.TypeConversionUtility.StringToInt(System.String,System.Int32)">
+            <summary>
+            Attempts to convert string to int, all errors result in the default value returned.
+            If the input is nonnumeric, default is also returned
+            </summary>
+            <param name="stringInput">string</param>
+            <param name="returnDefault">int</param>
+            <returns>int, returnDefault on error</returns>
+        </member>
+        <member name="M:BigWoo.Common.TypeConversionUtility.StringToBool(System.String,System.Boolean)">
+            <summary>
+            Attempts to convert a string to a bool.  Input expects either the
+            word true or false (case insensitive).  returns default of it fails
+            to find a suitable conversion.
+            </summary>
+            <param name="stringInput">string, either the workd true or false</param>
+            <param name="returnDefault">bool, boolean value to return if the input string is neither true or false</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:BigWoo.Common.TypeConversionUtility.EnumParse``1(System.String,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T">enumeration type</typeparam>
+            <param name="enumString">value to be converted</param>
+            <param name="defaultValue">default</param>
+            <returns></returns>
+        </member>
+        <member name="T:BigWoo.Common.CommandLineArgument">
+            <summary>
+            This class represents a command line parameter (argument) that requires an option to
+            set.  For example /? is a commandline argument that is valid for this class
+            
+            Used in conjuction with a ApplicationCommandLine instance
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.CommandLineArgument._argument">
+            <summary>
+            this is the argument identifer without the - or / 
+            it can be anything, such as ? o overwrite, as long as its a single
+            "word" (since spaces delimit command line arguments)
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.CommandLineArgument._helpText">
+            <summary>
+            this is text that will be printed when help is needed
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.CommandLineArgument._selected">
+            <summary>
+            indicates if this argument was chosen (found in the command line)
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.CommandLineArgument._id">
+            <summary>
+            an id as assigned by user, its expected to be unique but there is no enforcement 
+            of that rule in the command line classes.  It comes in really handy for 
+            handling word style arguments like -table
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.CommandLineArgument.SetSelected(System.Boolean)">
+            <summary>
+            sets the value for the _selected memeber
+            made as a function so that derived classes 
+            dont have to reimplement the Selected property
+            but instead reimplement this function as needed
+            </summary>
+            <param name="state">bool, selected state</param>
+        </member>
+        <member name="M:BigWoo.Common.CommandLineArgument.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="arg">string, argument identifier such as ?</param>
+            <param name="help">string, text to help the user understand the meaninging of the argument</param>
+        </member>
+        <member name="M:BigWoo.Common.CommandLineArgument.#ctor(System.String,System.String,System.Object)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="arg">string, argument identifier such as ?</param>
+            <param name="help">string, text to help the user understand the meaninging of the argument</param>
+            <param name="id"></param>
+        </member>
+        <member name="M:BigWoo.Common.CommandLineArgument.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="arg">string, argument identifier such as ?</param>
+            <param name="help">string, text to help the user understand the meaninging of the argument</param>
+            <param name="state">bool, selected state</param>
+        </member>
+        <member name="M:BigWoo.Common.CommandLineArgument.#ctor(System.String,System.String,System.Boolean,System.Object)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="arg">string, argument identifier such as ?</param>
+            <param name="help">string, text to help the user understand the meaninging of the argument</param>
+            <param name="state">bool, selected state</param>
+            <param name="id">type user defined, intended to give user ability to progamatically idenity this instance, 
+            suggested use is user defined enums</param>
+        </member>
+        <member name="M:BigWoo.Common.CommandLineArgument.ToString">
+            <summary>
+            
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="P:BigWoo.Common.CommandLineArgument.Argument">
+            <summary>
+            Property:  the argument identifer without the - or / 
+            it can be anything, such as ? o overwrite, as long as its a single
+            "word" (since spaces delimit command line arguments)
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.CommandLineArgument.HelpText">
+            <summary>
+            Property: text that will be printed when help is needed
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.CommandLineArgument.Selected">
+            <summary>
+            Property: indicates if this argument was chosen (found in the command line)
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.CommandLineArgument.Id">
+            <summary>
+            an id as assigned by class consumer. its expected to be unique but there is no enforcement 
+            of that rule in the command line classes.  It comes in really handy for 
+            handling word style arguments like -table
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.SwitchableCommandLineArgument">
+            <summary>
+            Switchable arguments are arguments that are exclusive of on another--for example
+            lighton and lightoff would be switchable because light cannot be both on and off
+            at the same time
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.SwitchableCommandLineArgument._switchArg">
+            <summary>
+            This is the counter point to the argument 
+            digging into this can get recurvise and nasty
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.SwitchableCommandLineArgument.StateChangeTogglesRelativesState(System.Boolean)">
+            <summary>
+            should only be called from SetSelected
+            it is communicated from a related SwitchableCommandLineArgument change
+            in state
+            </summary>
+            <param name="state">bool, selected state</param>
+        </member>
+        <member name="M:BigWoo.Common.SwitchableCommandLineArgument.SetSelected(System.Boolean)">
+            <summary>
+            Overides base class so that the related SwitchableCommandLineArgument member _switchArg
+            selected state can be toggled to the opposite of this instance state will be 
+            </summary>
+            <param name="state">bool, selected state</param>
+        </member>
+        <member name="M:BigWoo.Common.SwitchableCommandLineArgument.#ctor(System.String,System.String,BigWoo.Common.SwitchableCommandLineArgument)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="arg">string (parent), argument identifier such as ?</param>
+            <param name="help">string (parent), text to help the user understand the meaninging of the argument</param>
+            <param name="switchArg">Another argument that is exclusively tied to this argument</param>
+        </member>
+        <member name="M:BigWoo.Common.SwitchableCommandLineArgument.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="help"></param>
+        </member>
+        <member name="P:BigWoo.Common.SwitchableCommandLineArgument.SwitchArg">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.DataCommandLineArgument">
+            <summary>
+            This class is for command line arguments that receive input after them
+            such as -f myfile.txt 
+            the argument is f and the data is myfile.txt
+            all data is kept as text, users must decide how to translate it
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.DataCommandLineArgument._hasData">
+            <summary>
+            identifies if data was found
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.DataCommandLineArgument._data">
+            <summary>
+            the data its self
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.DataCommandLineArgument._isFixedPosition">
+            <summary>
+            When true indicates that the argument is expected at a specific position
+            in the argument chain.  fixed position arguments are expected to come at the front
+            of the chain and are processed in the order they are added to array
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.DataCommandLineArgument.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="help"></param>
+        </member>
+        <member name="M:BigWoo.Common.DataCommandLineArgument.#ctor(System.String,System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="help"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:BigWoo.Common.DataCommandLineArgument.#ctor(System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="data">default data for the argument</param>
+            <param name="arg"></param>
+            <param name="help"></param>
+        </member>
+        <member name="P:BigWoo.Common.DataCommandLineArgument.Data">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DataCommandLineArgument.HasData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DataCommandLineArgument.IsFixedPosition">
+            <summary>
+            True indicates this argument is expected at a certain position
+            in the argument list.  The position is assumed to be the position
+            in this class instance in the array (aka order it was added)
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.CommandListArgumentList">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.FixedPositionArgumentList">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.ApplicationCommandLine">
+            <summary>
+            The purpose of the ApplicationCommandLine class is to allow application
+            programmers the ability to avoid having to parse the command line,
+            handling all of the complexities of the commandline, and allow them
+            to focus on the data given in the command line.
+            
+            The ApplicationCommandLine class maps program defined data (instances of 
+            CommandLineArgument) to actual command line input (thats the Main(String[] args) 
+            input).  
+            
+            For the purpose of this class, there are two types inputs recieved on the
+            command line.   Arguments that are deliniated with a delimter such as -, and
+            arguments that are not deliniated.
+            
+            Arguments deliniated with a delimter are called cmdArgs and
+            those that are not will be called fileArgs
+            
+            One thing to note, not all undelinated arguments are fileArgs.  Some of them could be
+            data for a cmdArg.  In such case they are called dataArgs.  The content for dataArgs are
+            stored with cmdArg class instances if the cmdArg is an instance of DataCommandLineArgument
+            
+            Example:  myprog -c -f notes.txt notes2.txt
+            
+            -c is a cmdArg
+            -f is a cmdArg with a dataArg
+            notes.txt is the dataArg for -f
+            notes2.txt is a fileArg
+            
+            of course the above example assumes that -f is defined as a dataArg
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.ApplicationCommandLine._validArgPrefixes">
+            <summary>
+            identifies valid syntax for denoting a command line argument
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.ApplicationCommandLine._cmdArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:BigWoo.Common.ApplicationCommandLine._fileArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.ApplicationCommandLine.IsStartingWithArgPrefix(System.String)">
+            <summary>
+            search through the known acceptable argument prefixes and see if the 
+            string input begins with one of them.
+            
+            This search is case sensitive 
+            </summary>
+            <param name="arg"></param>
+            <returns>true if input begins with one of the items in _validArgPrefixes</returns>
+        </member>
+        <member name="M:BigWoo.Common.ApplicationCommandLine.GetEnumerator">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Common.ApplicationCommandLine.Compare(System.Object,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Common.ApplicationCommandLine.ParseCmdLineToArgs(System.String[])">
+            <summary>
+            Running through the array of commandline arguements
+            compares them with _cmdArgs array and sets them
+            to selected when found, and passes in data to them
+            when the data is found
+            </summary>
+            <param name="args">string array, typically the string[] received from Main</param>
+        </member>
+        <member name="M:BigWoo.Common.ApplicationCommandLine.AddArg(BigWoo.Common.CommandLineArgument)">
+            <summary>
+            just adds an argument our internal lists of arguments
+            </summary>
+            <param name="arg">CommandLineArgument, or one of its derived types</param>
+        </member>
+        <member name="P:BigWoo.Common.ApplicationCommandLine.ArgCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.ApplicationCommandLine.ArgumentPrefixes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.ApplicationCommandLine.FileArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.ApplicationCommandLine.HelpLines">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.DelimitedString">
+            <summary>
+            This class contains functionality for dealing with string that is delimited by
+            some type of charactor (default is pipe symbol | )
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.GetEnumerator">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.ToString">
+            <summary>
+            
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.InitializeArray">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.GetRawStringFromArray">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.SetArrayFromRawString">
+            <summary>
+            validates the key.  used on load to validate that it was called correctly.
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.#ctor(System.Int32)">
+            <summary>
+            uses default delimiter of pipe, setting the number of fields expected to be found in the string
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.#ctor(System.Int32,System.String)">
+            <summary>
+            uses default delimiter of pipe, setting the number of fields expected to be found in the string and 
+            setting the input to a starting value
+            </summary>
+            <param name="value"></param>
+            <param name="numberOfFields"></param>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.#ctor(System.Char,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="delimiter"></param>
+            <param name="numberOfFields"></param>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.#ctor(System.Char,System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="delimiter"></param>
+            <param name="value"></param>
+            <param name="numberOfFields"></param>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.GetField(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedString.SetField(System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <param name="value"></param>
+        </member>
+        <member name="P:BigWoo.Common.DelimitedString.Delimiter">
+            <summary>
+            Indicates delimiter being used
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DelimitedString.NumberOfFields">
+            <summary>
+            Indicates the number of fields expected in the string
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DelimitedString.RawString">
+            <summary>
+            The string assembled with all the parts, if you set this value you reset
+            all of the "parts"
+            </summary>
+        </member>
+        <member name="P:BigWoo.Common.DelimitedString.Item(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index">int</param>
+            <returns>string</returns>
+        </member>
+        <member name="P:BigWoo.Common.DelimitedString.IsDirty">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:BigWoo.Common.DelimitedStringException">
+            <summary>
+            This exception is thrown by DelimitedString when it encounters an error
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.DelimitedStringException.#ctor(System.String)">
+            <summary>
+            ctor
+            </summary>
+            <param name="msg">string</param>
+        </member>
+        <member name="T:BigWoo.Common.ConfigurationManagerUtility">
+            <summary>
+            This static class provides methods that make accessing the configuration manager simplier
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.ConfigurationManagerUtility.GetAppSettingString(System.String,System.String)">
+            <summary>
+            Reads a string from the application config file, appsettings section, returning the value in the fil
+            unless there is an exception in which case it returns the default.
+            </summary>
+            <param name="key"></param>
+            <param name="retDefault"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Common.ConfigurationManagerUtility.GetAppSettingInt(System.String,System.Int32)">
+            <summary>
+            Reads a string from the application config file, appsettings section, returning the value as an integer
+            unless there is an exception in which case it returns the default.
+            </summary>
+            <param name="key"></param>
+            <param name="retDefault"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Common.ConfigurationManagerUtility.GetAppSettingBool(System.String,System.Boolean)">
+            <summary>
+            Reads a string from the application config file, appsettings section, returning the value as an integer
+            unless there is an exception in which case it returns the default.
+            </summary>
+            <param name="key"></param>
+            <param name="retDefault"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BigWoo.Common.ReflectionUtility">
+            <summary>
+            Utility class for providing reflection based functionality 
+            </summary>
+        </member>
+        <member name="M:BigWoo.Common.ReflectionUtility.InvokeDefaultCtor``1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TClassInstanceType"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Common.ReflectionUtility.SetPrivateMemberValueType``2(``0@,System.String,``1)">
+            <summary>
+            Use to set the value of a value type private member 
+            </summary>
+            <typeparam name="TClassInstanceType">Class type</typeparam>
+            <typeparam name="TDesiredValueType">type of the value setting</typeparam>
+            <param name="classInstance"></param>
+            <param name="variableName">string</param>
+            <param name="desiredValue"></param>
+        </member>
+        <member name="M:BigWoo.Common.ReflectionUtility.GetPrivateMemberValueType``1(``0@,System.String)">
+            <summary>
+            Use to set the value of a value type private member 
+            </summary>
+            <typeparam name="TClassInstanceType">Class type</typeparam>
+            <param name="classInstance"></param>
+            <param name="variableName">string</param>
+        </member>
+        <member name="M:BigWoo.Common.ReflectionUtility.SetPrivatePropertyValueType``2(``0@,System.String,``1)">
+            <summary>
+            Use to set the value of a value type property that is not public
+            </summary>
+            <typeparam name="TClassInstanceType">Class type</typeparam>
+            <typeparam name="TDesiredValueType">type of the value setting</typeparam>
+            <param name="classInstance"></param>
+            <param name="variableName">string</param>
+            <param name="desiredValue"></param>
+        </member>
+        <member name="M:BigWoo.Common.ReflectionUtility.SetPropertyValueType``2(``0@,System.String,``1)">
+            <summary>
+            Use to set the value of a value type property that is public
+            </summary>
+            <typeparam name="TClassInstanceType">Class type</typeparam>
+            <typeparam name="TDesiredValueType">type of the value setting</typeparam>
+            <param name="classInstance"></param>
+            <param name="propertyName">string</param>
+            <param name="desiredValue"></param>
+        </member>
+        <member name="M:BigWoo.Common.ReflectionUtility.InvokeInternalStaticMethod``1(System.String,System.Type,System.Object[])">
+            <summary>
+            
+            </summary>
+            <exception cref="T:System.InvalidProgramException">InvalidProgramException</exception>
+            <typeparam name="TClassInstanceType"></typeparam>
+            <param name="classType"></param>
+            <param name="methodName"></param>
+            <param name="methodParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.Common.ReflectionUtility.InvokeInternalMethod``1(System.String,System.Object,System.Object[])">
+            <summary>
+            
+            </summary>
+            <exception cref="T:System.InvalidProgramException">InvalidProgramException</exception>
+            <typeparam name="TReturnType"></typeparam>
+            <param name="classInstance"></param>
+            <param name="methodName"></param>
+            <param name="methodParams"></param>
+            <returns>MethodInfo</returns>
+        </member>
+        <member name="M:BigWoo.Common.ReflectionUtility.InvokeInternalMethod(System.String,System.Object,System.Object[])">
+            <summary>
+            
+            </summary>
+            <exception cref="T:System.InvalidProgramException">InvalidProgramException</exception>
+            <param name="classInstance"></param>
+            <param name="methodName"></param>
+            <param name="methodParams"></param>
+            <returns>MethodInfo</returns>
+        </member>
+    </members>
+</doc>

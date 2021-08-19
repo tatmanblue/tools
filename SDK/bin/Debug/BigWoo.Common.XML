@@ -1,0 +1,641 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BigWoo.SDK</name>
+    </assembly>
+    <members>
+        <member name="T:BigWoo.SDK.NetworkBrowser">
+            <summary>
+            Provides a mechanism for supplying
+            a list of all PC names in the local network.
+            This collection of PC names is used in the form 
+            
+            This class makes use of a DllImport instruction.
+            The purpose of which is as follows:
+            When a DllImport declaration is made
+            in managed code (C#) it is a call to a legacy
+            unmanaged code module, normally
+            a C++ Dynamic Link Library. These C++ Dll's are
+            usually part of the operating system API,
+            or some other vendors API, and must be 
+            used to carry out operations that are not
+            native within the managed code C# framework. 
+            This is fairly normal within the windows world.
+            The only thing that needs careful consideration
+            is the construction of the correct type of STRUCTS,
+            object pointers, and attribute markers,
+            which all contribute to making the link
+            between managed (C#) and unmanaged code (C++)
+            more seamless
+                
+            This class makes use of the following Dll calls
+            <list type="bullet">
+            <item>
+            <description> Netapi32.dll : NetServerEnum,
+            The NetServerEnum function lists all servers
+            of the specified type that are visible in
+            a domain. For example, an application can call 
+            NetServerEnum to list all domain controllers
+            only or all SQL servers only.
+            You can combine bit masks to list several
+            types. For example, a value of 0x00000003 
+            combines the bit masks for SV_TYPE_WORKSTATION
+            (0x00000001) and SV_TYPE_SERVER (0x00000002).
+            </description>
+            </item>
+            <item>
+            <description> Netapi32.dll : NetApiBufferFree,
+            The NetApiBufferFree function frees 
+            the memory that the NetApiBufferAllocate
+            function allocates. Call NetApiBufferFree 
+            to free the memory that other network
+            management functions return.</description>
+            </item>
+            </list>
+            </summary>
+        </member>
+        <member name="M:BigWoo.SDK.NetworkBrowser.NetServerEnum(System.String,System.Int32,System.IntPtr@,System.Int32,System.Int32@,System.Int32@,System.Int32,System.String,System.Int32@)">
+            <summary>
+            Netapi32.dll : The NetServerEnum function lists all servers
+            of the specified type that are
+            visible in a domain. For example, an 
+            application can call NetServerEnum
+            to list all domain controllers only
+            or all SQL servers only.
+            You can combine bit masks to list
+            several types. For example, a value 
+            of 0x00000003  combines the bit
+            masks for SV_TYPE_WORKSTATION 
+            (0x00000001) and SV_TYPE_SERVER (0x00000002)
+            </summary>
+        </member>
+        <member name="M:BigWoo.SDK.NetworkBrowser.NetApiBufferFree(System.IntPtr)">
+            <summary>
+            Netapi32.dll : The NetApiBufferFree function frees 
+            the memory that the NetApiBufferAllocate function allocates. 
+            Call NetApiBufferFree to free
+            the memory that other network 
+            management functions return.
+            </summary>
+            <param name="pBuf"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.NetworkBrowser.#ctor">
+            <SUMMARY>
+            Constructor, simply creates a new NetworkBrowser object
+            </SUMMARY>
+        </member>
+        <member name="M:BigWoo.SDK.NetworkBrowser.GetNetworkComputers">
+            <summary>
+            Uses the DllImport : NetServerEnum
+            with all its required parameters
+            (see http://msdn.microsoft.com/library/default.asp?
+                 url=/library/en-us/netmgmt/netmgmt/netserverenum.asp
+            for full details or method signature) to
+            retrieve a list of domain SV_TYPE_WORKSTATION
+            and SV_TYPE_SERVER PC's
+            </summary>
+            <returns>Arraylist that represents
+            all the SV_TYPE_WORKSTATION and SV_TYPE_SERVER
+            PC's in the Domain</returns>
+        </member>
+        <member name="T:BigWoo.SDK.NetworkBrowser._SERVER_INFO_100">
+             <summary>
+            create a _SERVER_INFO_100 STRUCTURE
+             </summary>
+        </member>
+        <member name="T:BigWoo.SDK.Gdi32">
+            <summary>
+            class for Gdi API calls
+            </summary>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.CombineRgn(System.IntPtr,System.IntPtr,System.IntPtr,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="dest"></param>
+            <param name="src1"></param>
+            <param name="src2"></param>
+            <param name="flags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.CreateRectRgnIndirect(BigWoo.SDK.RECT@)">
+            <summary>
+            
+            </summary>
+            <param name="rect"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.GetClipBox(System.IntPtr,BigWoo.SDK.RECT@)">
+            <summary>
+            
+            </summary>
+            <param name="hDC"></param>
+            <param name="rectBox"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.SelectClipRgn(System.IntPtr,System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hDC"></param>
+            <param name="hRgn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.CreateBrushIndirect(BigWoo.SDK.LOGBRUSH@)">
+            <summary>
+            
+            </summary>
+            <param name="brush"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.BitBlt(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="hdcDest"></param>
+            <param name="nXDest"></param>
+            <param name="nYDest"></param>
+            <param name="nWidth"></param>
+            <param name="nHeight"></param>
+            <param name="hdcSrc"></param>
+            <param name="nXSrc"></param>
+            <param name="nYSrc"></param>
+            <param name="dwRop"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.CreateDC(System.String,System.String,System.String,System.IntPtr)">
+            <summary>
+            Used for getting the SDK DC handle for the specified device
+            typically used for drawing on the device2
+            </summary>
+            <param name="driverName"></param>
+            <param name="deviceName"></param>
+            <param name="output"></param>
+            <param name="lpInitData"></param>
+            <returns>IntPtr, the handle to the DC</returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.CreateCompatibleBitmap(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            SDK Function CreateCompatibleBitmap
+            </summary>
+            <param name="hdc"></param>
+            <param name="nWidth"></param>
+            <param name="nHeight"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.DeleteDC(System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="dc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.PatBlt(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="hDC"></param>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="flags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.DeleteObject(System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.SelectObject(System.IntPtr,System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hDC"></param>
+            <param name="hObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.Gdi32.CreateCompatibleDC(System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hDC"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BigWoo.SDK.ButtonControls">
+            <summary>
+            Class containing wrapper functions for various button messages and SDK function
+            calls, intent is to give simple interfaces for interacting with buttons
+            </summary>
+        </member>
+        <member name="M:BigWoo.SDK.ButtonControls.SetCheckState(System.Int32,BigWoo.SDK.ButtonStates)">
+            <summary>
+            Sets a check box to the state input
+            </summary>
+            <param name="hwnd">int, handle to the check box</param>
+            <param name="state">ButtonStates, state of the check box, usually checked or unchecked</param>
+        </member>
+        <member name="T:BigWoo.SDK.User32">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BigWoo.SDK.User32.EnableWindow(System.IntPtr,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="enable"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.EnumDisplaySettings(System.String,System.Int32,BigWoo.SDK.DEVMODE@)">
+            <summary>
+            
+            </summary>
+            <param name="deviceName"></param>
+            <param name="modeNum"></param>
+            <param name="devMode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.FindWindow(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="lpClassName"></param>
+            <param name="lpWindowName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.EnumChildWindows(System.Int32,System.Delegate,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="hWndParent"></param>
+            <param name="lpEnumFunc"></param>
+            <param name="lParam"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.GetWindowText(System.Int32,System.Text.StringBuilder,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="s"></param>
+            <param name="nMaxCount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.GetWindowTextLength(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="hwnd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.ChangeDisplaySettings(BigWoo.SDK.DEVMODE@,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="devMode"></param>
+            <param name="flags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.GetWindowLong(System.IntPtr,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="nIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.SetWindowLong(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="nIndex"></param>
+            <param name="newLong"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.SystemParametersInfo(System.UInt32,System.UInt32,System.Int32@,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="uiAction"></param>
+            <param name="uiParam"></param>
+            <param name="bRetValue"></param>
+            <param name="fWinINI"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.AnimateWindow(System.IntPtr,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="dwTime"></param>
+            <param name="dwFlags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.InvalidateRect(System.IntPtr,BigWoo.SDK.RECT@,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="rect"></param>
+            <param name="erase"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.LoadCursor(System.IntPtr,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="hInstance"></param>
+            <param name="cursor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.SetCursor(System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hCursor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.GetFocus">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.SetFocus(System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.ReleaseCapture">
+            <summary>
+            Used in conjunction with getting mouse capture.  Releases the capture
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.WaitMessage">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.TranslateMessage(BigWoo.SDK.MSG@)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.DispatchMessage(BigWoo.SDK.MSG@)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.PostMessage(System.IntPtr,System.Int32,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="Msg"></param>
+            <param name="wParam"></param>
+            <param name="lParam"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.SendMessage(System.IntPtr,System.Int32,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="Msg"></param>
+            <param name="wParam"></param>
+            <param name="lParam"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.GetMessage(BigWoo.SDK.MSG@,System.Int32,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+            <param name="hWnd"></param>
+            <param name="wFilterMin"></param>
+            <param name="wFilterMax"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.PeekMessage(BigWoo.SDK.MSG@,System.Int32,System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+            <param name="hWnd"></param>
+            <param name="wFilterMin"></param>
+            <param name="wFilterMax"></param>
+            <param name="wFlag"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.BeginPaint(System.IntPtr,BigWoo.SDK.PAINTSTRUCT@)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="ps"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.EndPaint(System.IntPtr,BigWoo.SDK.PAINTSTRUCT@)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="ps"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.GetDC(System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.ReleaseDC(System.IntPtr,System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="hDC"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.ShowWindow(System.IntPtr,System.Int16)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="cmdShow"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.MoveWindow(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="repaint"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.SetWindowPos(System.IntPtr,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="hWndAfter"></param>
+            <param name="X"></param>
+            <param name="Y"></param>
+            <param name="Width"></param>
+            <param name="Height"></param>
+            <param name="flags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.UpdateLayeredWindow(System.IntPtr,System.IntPtr,BigWoo.SDK.POINT@,BigWoo.SDK.SIZE@,System.IntPtr,BigWoo.SDK.POINT@,System.Int32,BigWoo.SDK.BLENDFUNCTION@,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="hwnd"></param>
+            <param name="hdcDst"></param>
+            <param name="pptDst"></param>
+            <param name="psize"></param>
+            <param name="hdcSrc"></param>
+            <param name="pprSrc"></param>
+            <param name="crKey"></param>
+            <param name="pblend"></param>
+            <param name="dwFlags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.GetWindowRect(System.IntPtr,BigWoo.SDK.RECT@)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="rect"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.ClientToScreen(System.IntPtr,BigWoo.SDK.POINT@)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="pt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.ScreenToClient(System.IntPtr,BigWoo.SDK.POINT@)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="pt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.TrackMouseEvent(BigWoo.SDK.TRACKMOUSEEVENTS@)">
+            <summary>
+            
+            </summary>
+            <param name="tme"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.SetWindowRgn(System.IntPtr,System.IntPtr,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="hRgn"></param>
+            <param name="redraw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.GetKeyState(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="virtKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.GetParent(System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.DrawFocusRect(System.IntPtr,BigWoo.SDK.RECT@)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <param name="rect"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.HideCaret(System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.ShowCaret(System.IntPtr)">
+            <summary>
+            
+            </summary>
+            <param name="hWnd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.BroadcastSystemMessage(System.Int32,System.Int32@,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="dwFlags"></param>
+            <param name="pdwRecipients"></param>
+            <param name="uiMessage"></param>
+            <param name="wParam"></param>
+            <param name="lParam"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.User32.GetUserProfileString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BigWoo.SDK.GDIHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BigWoo.SDK.GDIHelper.GetRoundRectPath(System.Drawing.RectangleF,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="rect"></param>
+            <param name="radius"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BigWoo.SDK.GDIHelper.GetRoundRectPath(System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="X"></param>
+            <param name="Y"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="radius"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

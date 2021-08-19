@@ -1,0 +1,11 @@
+C:\src\BigWoo\SDK\bin\Debug\BigWoo.SDK.dll
+C:\src\BigWoo\SDK\bin\Debug\BigWoo.SDK.pdb
+C:\src\BigWoo\SDK\obj\Debug\ResolveAssemblyReference.cache
+C:\src\BigWoo\SDK\obj\Debug\BigWoo.SDK.dll
+C:\src\BigWoo\SDK\obj\Debug\BigWoo.SDK.pdb
+J:\public\personal\dev\Tools\BigWoo\SDK\bin\Debug\BigWoo.Common.XML
+J:\public\personal\dev\Tools\BigWoo\SDK\bin\Debug\BigWoo.SDK.dll
+J:\public\personal\dev\Tools\BigWoo\SDK\bin\Debug\BigWoo.SDK.pdb
+J:\public\personal\dev\Tools\BigWoo\SDK\obj\Debug\ResolveAssemblyReference.cache
+J:\public\personal\dev\Tools\BigWoo\SDK\obj\Debug\BigWoo.SDK.dll
+J:\public\personal\dev\Tools\BigWoo\SDK\obj\Debug\BigWoo.SDK.pdb
